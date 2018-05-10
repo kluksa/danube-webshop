@@ -11,10 +11,12 @@ import hr.srce.isvu.restpreglednik.domain.Item;
  * @author Lukša Kraljević, Srce
  *
  */
-public interface ItemRepository {
+public interface ShoppingBasketRepository {
    
-   public void addItem(Item item);
+   public void addToBasket(Item item);
    
-   public List<Item> findAllItems();
+   public List<Item> getAllItems();
+   
+   public void removeItem(Item item);
 
 }
