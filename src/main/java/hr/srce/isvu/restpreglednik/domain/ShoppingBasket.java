@@ -3,14 +3,13 @@
  */
 package hr.srce.isvu.restpreglednik.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -21,15 +20,20 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class Role {
+public class ShoppingBasket {
+   
    @Id
    @GeneratedValue
    private Integer id;
    
-   @NotEmpty
    @NotNull
-   private String roleName;
+   @ManyToOne(cascade = CascadeType.ALL)
+   private User user;
    
-   @ManyToMany(mappedBy = "roles")
-   private Set<User> users = new HashSet<>();
+   @NotNull
+   @ManyToOne(cascade = CascadeType.ALL)
+   private Item item;
+   
+   private Date time;
+
 }
