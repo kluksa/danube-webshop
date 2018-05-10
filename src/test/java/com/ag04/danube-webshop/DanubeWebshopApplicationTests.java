@@ -1,4 +1,4 @@
-package com.ag04.danube-webshop;
+package com.ag04.danube_webshop;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
