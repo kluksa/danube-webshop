@@ -7,16 +7,20 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * @author Lukša Kraljević, Srce
  *
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class ShoppingBasket {
 
 	@Id
@@ -108,4 +112,11 @@ public class ShoppingBasket {
 		return true;
 	}
 
+   @Override
+   public String toString() {
+      return "ShoppingBasket [id=" + id + ", user=" + user + ", item=" + item + ", time=" + time +
+               "]";
+   }
+
+	
 }

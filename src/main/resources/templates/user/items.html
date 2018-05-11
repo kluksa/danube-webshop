@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <th:block layout:fragment="content">
+<div class="row">
 <div class="card">
     <div class="card-header">
         <h1 th:text="#{user.index.prva}">Nelokalizirani naslov</h1>
@@ -10,50 +11,81 @@
 
 	<div class="card-body card-padding">
 		<div class="row">
-			<div class="col-xs-12">
-		        <p>
-		        
-					<a href="http://www.isvu.hr" target="_blank">ISVU</a> je složen informacijski sustav koji prvenstveno olakšava provedbu administrativnih poslova
-					na razini visokog učilišta. Na ovim stranicama prikazani su ključni pokazatelji rada i 
-					korištenja sustava.
-				</p>
-				<p>
-					ISVU se koristi na više od 110 visokih učilišta, koristi ga više od 140.000 studenata i 
-					13.500 djelatnika tih visokih učilišta. Uz njih, na ISVU se spaja više od 110 aplikacija 
-					visokih učilišta putem programskog sučelja za pristup procedurama i podacima visokih 
-					učilišta (<a href="https://www.isvu.hr/api/" target="_blank">ISVU REST API</a>). 
-					Sustav pokriva većinu administrativnih poslova u vezi sa 
-					studentima i njihovim studiranjem koje visoko učilište mora obavljati.
-				</p>
-				<p>
-					Različitim ulogama, tj. kategorijama korisnika, namijenjeni su različiti ISVU moduli, 
-					od kojih je korisnicima dostupno ukupno 12. Tako studenti koriste isključivo 
-					<a href="https://www.isvu.hr/studomat/" target="_blank">Studomat</a>, 
-					nastavnici <a href="https://www.isvu.hr/nastavnici/" target="_blank">Nastavnički portal</a> 
-					i/ili Ispiti, djelatnici studentskih referada 
-					modul Studiji i studenti itd. Neki su od tih modula, poput Studiji i studenti te Ispiti,  
-					desktop aplikacije koje korisnici moraju instalirati na svoja računala, a dio su 
-					<em>web</em>-aplikacije, poput Studomata i Nastavničkog portala, ali i Skladišta podataka.
-				</p>
-				<p>
-					Tijekom ispitnih rokova i upisa godina, kada se sustav najviše koristi, na Studomatu se obavi 
-					40.000 do 60.000 prijava za rad. Tada se na Nastavničkom portalu za rad dnevno prijavi između 
-					3.200 i 4.600 nastavnika, a u <em>desktop</em> aplikacije se tih mjeseci dnevno za rad prijavi oko 
-					2.800 djelatnika visokih učilišta.
-				</p>
-				<p>
-					Uz sve navedene korisnike ISVU mora odraditi i sve zahtjeve raznih aplikacija na visokim 
-					učilištima koje se na ISVU spajaju programskim putem koristeći ISVU REST API. Više od 110 
-					takvih aplikacija generira oko 1.000.000 zahtjeva koje na dnevnoj bazi odrađuje ISVU REST API. 
-				</p>
-				<p>
-					Za detaljniji pregled pojedine kategorije podataka, poput studenata ili kadrova, 
-					<strong>odaberite</strong> odgovarajuću opciju iz izbornika. 
-				</p>
+			<div class="col-xs-2 pull-right">
+				Search
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 pull-right">
+				Kategorija
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 pull-left">
+				Dodaj
+			</div>
+			<div class="col-xs-1 pull-right">
+				Brisi
+			</div>
+			<div class="col-xs-1 pull-right">
+				Trazi
 			</div>
 		</div>
 	</div>
 </div>
+</div>
+<div class="row">
+<table class="table">
+<thead>
+<tr>
+<th scope="col">Picture</th>
+<th scope="col">Name</th>
+<th scope="col">Category</th>
+<th scope="col">Date</th>
+<th scope="col">Add</th>
+</tr>
+</thead>
+<tr th:each="item : ${items}">
+                <td th:text="${item.pictureUrl}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.category.name}"></td>
+                <td th:text="${item.timestamp}"></td>
+                <td > <button type="button" class="btn btn-default"></button></td>
+               
+</tr>
+</table>
+</div>
 
+<div class="row">
+        <div class="form-group col-md-1">
+            <select class="form-control pagination" id="pageSizeSelect">
+                <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                        th:selected="${pageSize} == ${selectedPageSize}"></option>
+            </select>
+        </div>
+        <div th:if="${items.totalPages != 1}" class="form-group col-md-11 pagination-centered">
+            <ul class="pagination">
+                <li th:class="${items.number == 0} ? disabled">
+                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+                </li>
+                <li th:class="${items.number == 0} ? disabled">
+                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=${items.number})}">&larr;</a>
+                </li>
+                <li th:class="${items.number == (page - 1)} ? 'active pointer-disabled'"
+                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                    <a class="pageLink" th:href="@{/(pageSize=${selectedPageSize}, page=${page})}"
+                       th:text="${page}"></a>
+                </li>
+                <li th:class="${items.number + 1 == items.totalPages} ? disabled">
+                    <a class="pageLink"
+                       th:href="@{/(pageSize=${selectedPageSize}, page=${items.number + 2})}">&rarr;</a>
+                </li>
+                <li th:class="${items.number + 1 == items.totalPages} ? disabled">
+                    <a class="pageLink"
+                       th:href="@{/(pageSize=${selectedPageSize}, page=${items.totalPages})}">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </th:block>
 </html>

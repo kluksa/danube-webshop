@@ -19,7 +19,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
       http.authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).hasAnyRole("ADMIN")
                .antMatchers("/libs/*.html").hasAnyRole("ADMIN").antMatchers("/**").permitAll()
+               .antMatchers("/admin", "/h2_console/**").hasRole("ADMIN")
                .anyRequest().authenticated().and().httpBasic();
+      
+      http.csrf().disable();
+      http.headers().frameOptions().disable();
    }
 
 }

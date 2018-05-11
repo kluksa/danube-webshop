@@ -7,17 +7,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * @author Lukša Kraljević, Srce
  *
  */
 @Entity
+@Table(name="tbl_role")
+@EntityListeners(AuditingEntityListener.class)
 public class Role {
 	@Id
 	@GeneratedValue
@@ -25,9 +31,9 @@ public class Role {
 
 	@NotEmpty
 	@NotNull
-	private String roleName;
+	private String name;
 
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "hasRoles")
 	private Set<User> users = new HashSet<>();
 
 	public Integer getId() {
@@ -38,12 +44,12 @@ public class Role {
 		this.id = id;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public String getName() {
+		return name;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Set<User> getUsers() {
@@ -59,7 +65,7 @@ public class Role {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
@@ -78,10 +84,10 @@ public class Role {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (roleName == null) {
-			if (other.roleName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!roleName.equals(other.roleName))
+		} else if (!name.equals(other.name))
 			return false;
 		if (users == null) {
 			if (other.users != null)
@@ -90,5 +96,11 @@ public class Role {
 			return false;
 		return true;
 	}
+
+   @Override
+   public String toString() {
+      return "Role [id=" + id + ", roleName=" + name + ", users= + users + ]";
+   }
+	
 
 }

@@ -7,17 +7,23 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * @author Lukša Kraljević, Srce
  *
  */
 @Entity
+@Table(name="tbl_item")
+@EntityListeners(AuditingEntityListener.class)
 public class Item {
 	@Id
 	@GeneratedValue
@@ -25,11 +31,11 @@ public class Item {
 
 	@NotNull
 	@NotEmpty
-	private String productName;
+	private String name;
 
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
-	private ProductCategory productCategory;
+	private ProductCategory category;
 
 	@NotNull
 	@NotEmpty
@@ -37,13 +43,23 @@ public class Item {
 
 	private String pictureUrl;
 
-	private String picture;
-
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User author;
 
 	private Date timestamp;
+
+	public Item(Integer id, String name, ProductCategory category, String description, String pictureUrl  ) {
+	   this.id = id;
+	   this.name = name;
+	   this.category = category;
+	   this.description = description;
+	   this.pictureUrl = pictureUrl;
+	}
+	
+	public Item() {
+	   
+	}
 
 	public Integer getId() {
 		return id;
@@ -53,20 +69,20 @@ public class Item {
 		this.id = id;
 	}
 
-	public String getProductName() {
-		return productName;
+	public String getName() {
+		return name;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public ProductCategory getProductCategory() {
-		return productCategory;
+	public ProductCategory getCategory() {
+		return category;
 	}
 
-	public void setProductCategory(ProductCategory productCategory) {
-		this.productCategory = productCategory;
+	public void setCategory(ProductCategory category) {
+		this.category = category;
 	}
 
 	public String getDescription() {
@@ -83,14 +99,6 @@ public class Item {
 
 	public void setPictureUrl(String pictureUrl) {
 		this.pictureUrl = pictureUrl;
-	}
-
-	public String getPicture() {
-		return picture;
-	}
-
-	public void setPicture(String picture) {
-		this.picture = picture;
 	}
 
 	public User getAuthor() {
@@ -116,10 +124,9 @@ public class Item {
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		result = prime * result + ((pictureUrl == null) ? 0 : pictureUrl.hashCode());
-		result = prime * result + ((productCategory == null) ? 0 : productCategory.hashCode());
-		result = prime * result + ((productName == null) ? 0 : productName.hashCode());
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		return result;
 	}
@@ -148,25 +155,20 @@ public class Item {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (picture == null) {
-			if (other.picture != null)
-				return false;
-		} else if (!picture.equals(other.picture))
-			return false;
 		if (pictureUrl == null) {
 			if (other.pictureUrl != null)
 				return false;
 		} else if (!pictureUrl.equals(other.pictureUrl))
 			return false;
-		if (productCategory == null) {
-			if (other.productCategory != null)
+		if (category == null) {
+			if (other.category != null)
 				return false;
-		} else if (!productCategory.equals(other.productCategory))
+		} else if (!category.equals(other.category))
 			return false;
-		if (productName == null) {
-			if (other.productName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!productName.equals(other.productName))
+		} else if (!name.equals(other.name))
 			return false;
 		if (timestamp == null) {
 			if (other.timestamp != null)
@@ -175,5 +177,13 @@ public class Item {
 			return false;
 		return true;
 	}
+
+   @Override
+   public String toString() {
+      return "Item [id=" + id + ", productName=" + name + ", productCategory=" +
+               category + ", description=" + description + ", pictureUrl=" + pictureUrl +
+               ", author=" + author + ", timestamp=" + timestamp + "]";
+   }
+	
 
 }
