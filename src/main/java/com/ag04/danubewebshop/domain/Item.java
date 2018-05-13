@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -47,6 +48,7 @@ public class Item {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User author;
 
+	@CreationTimestamp
 	private Date timestamp;
 
 	public Item() {

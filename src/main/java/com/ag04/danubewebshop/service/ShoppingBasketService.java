@@ -3,7 +3,8 @@
  */
 package com.ag04.danubewebshop.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.ag04.danubewebshop.domain.ShoppingBasket;
 import com.ag04.danubewebshop.domain.User;
@@ -18,6 +19,7 @@ public interface ShoppingBasketService {
 
    public void removeById(Long id, User user);
    
-   public List<ShoppingBasket> findAllByUser(User user);
+   public Page<ShoppingBasket> findAllByUser(User user, Pageable pageable);
+   
 
 }

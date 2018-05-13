@@ -23,11 +23,17 @@
   
 
     <div class="container">
-    <h1 th:text="${error}"></h1>XXX
-    <h1 th:text="${logout}"></h1>
 
       <form class="form-signin" th:action="@{/login}" method='POST'>
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h1 class="form-signin-heading">Please sign in</h1>
+        <div th:if="${param.error}" class="alert alert-warning alert-dismissible fade show" role="alert">
+        	Bad username or password!
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
+        	So long!
+        </div>
+<!--     	<h2 th:if="${param.error}" class="alert alert-error">Greška</h2> -->
+<!--     	<h2 th:if="${param.logout}" class="alert alert-success">Doviđenja</h2> -->
         <label for="inputEmail" class="sr-only">Username</label>
         <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus name="username">
         <label for="inputPassword" class="sr-only">Password</label>

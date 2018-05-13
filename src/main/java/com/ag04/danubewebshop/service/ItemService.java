@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.ag04.danubewebshop.domain.Item;
+import com.ag04.danubewebshop.domain.User;
 
 /**
  * @author Lukša Kraljević, Srce

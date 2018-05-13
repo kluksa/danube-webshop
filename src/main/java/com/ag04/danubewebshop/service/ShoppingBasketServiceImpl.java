@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -37,16 +39,17 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 	public void removeById(Long id, User user) {
 
 		Optional<ShoppingBasket> entry = repo.findById(id);
-		if (user.getId().equals(entry.get().getUser().getId())) {
-			repo.delete(entry.get());
+		if (user.equals(entry.get().getUser())) {
+//			repo.delete(entry.get());
+			repo.deleteById(id);
 		} else {
 			throw new AccessDeniedException("User has no rights");
 		}
 	}
 
 	@Override
-	public List<ShoppingBasket> findAllByUser(User user) {
-		return repo.findByUser(user);
+	public Page<ShoppingBasket> findAllByUser(User user, Pageable pageable) {
+		return repo.findByUser(user, pageable);
 	}
 
 }

@@ -1,53 +1,86 @@
-<div id="itemModal" class="modal fade" tabindex="-1"
+<div id="itemModal" class="modal modal_wide fade" tabindex="-1"
 	role="dialog" th:fragment="modalContents">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form>
-					<div class="row">
-						<label for="itemId" class="sr-only">Id:</label> <input type="text"
-							id="itemId" class="form-control" readonly th:value="${item.id}">
+		
+			<form class="form" th:action="@{/item/}" method='POST'>
+				<div class="form-group">
+
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">Item
+							details</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
-					<label for="itemId" class="sr-only">Name:</label> <input
-						type="text" id="itemId" class="form-control" readonly
-						th:value="${item.name}">
-					<div class="row"></div>
-					<label for="itemCategory" class="sr-only">Category:</label> <input
-						type="text" id="itemCategory" class="form-control" readonly
-						th:value="${item.category.name}">
-					<div class="row"></div>
-					<label for="itemDescription" class="sr-only">Description:</label> <input
-						type="text" id="itemDescription" class="form-control" readonly
-						th:value="${item.description}">
-					<div class="row"></div>
+					<div class="modal-body">
+						<div class="container-fluid">
+						<div sec:authorize='hasAuthority("ROLE_ADMIN")'>
+							<div class="row">
+								<label for="itemId" class="col-sm-3 col-form-label">Id:</label>
+								<div class="col-sm-9">
+									<input type="text" id="itemId" class="form-control" readonly
+										th:value="${item.id}"></input>
+								</div>
+							</div>
+						</div>
+							<div class="row">
+								<label for="itemName" class="col-sm-3 col-form-label">Name:</label>
+								<div class="col-sm-9">
+									<input type="text" id="itemName" class="form-control" th:attr="readonly=${(writeable != null  && writeable) ? null : 'readonly'}"
+										th:value="${item.name}" name="name"></input>
+								</div>
+							</div>
+							<div class="row">
+								<label for="itemCategory" class="col-sm-3 col-form-label">Category:</label>
+								<div class="col-sm-9">
+<!-- 									<input type="text" id="itemCategory" class="form-control" -->
+<!-- 										readonly th:value="${item.category.name}"></input> -->
+								</div>
+							</div>
+							<div class="row">
+								<label for="itemDescription" class="col-sm-3 col-form-label">Description:</label>
+								<div class="col-sm-9">
+									<input type="text" id="itemDescription" class="form-control" th:attr="readonly=${(writeable != null  && writeable) ? null : 'readonly'}"
+										 th:value="${item.description}" name="description"></input>
+								</div>
+							</div>
+							<div class="row">
 
-					<label for=itemPictureUrl class="sr-only">PictureUrl:</label> <input
-						type="text" id="itemPictureUrl" class="form-control" readonly
-						th:value="${item.pictureUrl}">
-					<div class="row"></div>
-					<label for="itemAuthor" class="sr-only">Author:</label> <input
-						type="text" id="itemAuthor" class="form-control" readonly
-						th:value="${item.author.username}">
-					<div class="row"></div>
-					<label for="itemTimestamp" class="sr-only">Timestamp:</label> <input
-						type="text" id="itemTimestamp" class="form-control" readonly
-						th:value="${item.timestamp}">
-					<div class="row"></div>
-			</div>
-
+								<label for=itemPictureUrl class="col-sm-3 col-form-label">PictureUrl:</label>
+								<div class="col-sm-9">
+									<input type="text" id="itemPictureUrl" class="form-control" th:attr="readonly=${(writeable != null  && writeable) ? null : 'readonly'}"
+										 th:value="${item.pictureUrl}" name="pictureUrl"></input>
+								</div>
+							</div>
+							<div sec:authorize='hasAuthority("ROLE_ADMIN")'>
+							<div class="row">
+								<label for="itemAuthor" class="col-sm-3 col-form-label">Author:</label>
+								<div class="col-sm-9">
+									<input type="text" id="itemAuthor" class="form-control" readonly
+										 th:value="${item.author.username}"></input>
+								</div>
+							</div>
+							<div class="row">
+								<label for="itemTimestamp" class="col-sm-3 col-form-label">Timestamp:</label>
+								<div class="col-sm-9">
+									<input type="text" id="itemTimestamp" class="form-control" 
+										readonly th:value="${item.timestamp}"></input>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<div th:if="${writeable}">
+							<button type="submit" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</div>
+			</form>
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-<!-- 			<button type="button" class="btn btn-primary">Save changes</button> -->
-		</div>
-		</form>
 	</div>
-</div>
 </div>

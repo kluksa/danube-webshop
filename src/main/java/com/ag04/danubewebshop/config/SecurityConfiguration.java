@@ -42,17 +42,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/css/**").permitAll()
 				.antMatchers("/lib/**").permitAll()
 				.antMatchers("/js/**").permitAll()
+				.antMatchers("/login**").permitAll()
 				.anyRequest().authenticated()
 			.and().authorizeRequests().antMatchers("/console/**").permitAll()
 			.and()
 				.formLogin().loginPage("/login").permitAll()
-					.failureUrl("/login?error=true")
 					.defaultSuccessUrl("/")
 					.usernameParameter("username")
 					.passwordParameter("password")
 			.and()
 				.logout().invalidateHttpSession(true)
-				.logoutSuccessUrl("/login?logout=true")
 			.and().csrf()
 			.and().exceptionHandling().accessDeniedPage("/403");
 	}

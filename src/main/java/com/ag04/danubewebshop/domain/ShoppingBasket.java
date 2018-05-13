@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -37,6 +38,7 @@ public class ShoppingBasket {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Item item;
 
+	@CreationTimestamp
 	private Date time;
 
 	public Long getId() {

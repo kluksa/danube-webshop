@@ -3,6 +3,7 @@
  */
 package com.ag04.danubewebshop.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -25,7 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  *
  */
 @Entity
-@Table(name="tbl_user")
+@Table(name = "tbl_user")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 	@Id
@@ -35,16 +37,15 @@ public class User {
 	@NotEmpty
 	@NotNull
 	private String username;
-	
-	private String password;
-	
-	private String firstName;
-	
-	private String lastName;
-	
-   private boolean enabled;
 
-	@ManyToMany(cascade = { CascadeType.ALL } )
+	private String password;
+
+	private boolean enabled;
+
+	@CreationTimestamp
+	private Date timestamp;
+
+	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "user_has_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "role_id") })
 	private Set<Role> roles = new HashSet<>();
@@ -66,27 +67,35 @@ public class User {
 	}
 
 	public String getPassword() {
-      return password;
-   }
+		return password;
+	}
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-   public boolean isEnabled() {
-      return enabled;
-   }
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-   public void setEnabled(boolean enabled) {
-      this.enabled = enabled;
-   }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-   public Set<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
 	public void setRoles(Set<Role> hasRoles) {
 		this.roles = hasRoles;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	@Override
@@ -120,10 +129,9 @@ public class User {
 		return true;
 	}
 
-   @Override
-   public String toString() {
-      return "User [id=" + id + ", username=" + username + "]";
-   }
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + "]";
+	}
 
-	
 }

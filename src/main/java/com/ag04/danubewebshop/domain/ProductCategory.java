@@ -3,6 +3,8 @@
  */
 package com.ag04.danubewebshop.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -27,15 +30,13 @@ public class ProductCategory {
 	@NotNull
 	private String name;
 	
+	@CreationTimestamp
+	private Date timestamp;
+	
 	public ProductCategory() {
 	   
 	}
 	
-	public ProductCategory(Integer id, String name) {
-      
-   }
-	
-
 	public Long getId() {
 		return id;
 	}
@@ -50,6 +51,15 @@ public class ProductCategory {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	@Override

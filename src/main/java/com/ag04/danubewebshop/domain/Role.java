@@ -3,6 +3,7 @@
  */
 package com.ag04.danubewebshop.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -32,6 +34,10 @@ public class Role {
 	@NotEmpty
 	@NotNull
 	private String name;
+	
+	@CreationTimestamp
+	private Date timestamp;
+
 
 	@ManyToMany(mappedBy = "roles")
 	private Set<User> users = new HashSet<>();
@@ -58,6 +64,14 @@ public class Role {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+	
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	@Override

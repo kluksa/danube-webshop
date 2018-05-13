@@ -48,10 +48,8 @@
 	<div class="row">
 		<div sec:authorize='hasAuthority("ROLE_ADMIN")'>
 			<div class="col-xs-2">
-				<form th:action="@{/add}" method="POST">
-					<button class="btn btn-md btn-primary btn-block" type="submit" name="id" value="123">Add
-						new article</button>
-				</form>
+					<button class="btn btn-md" type="button" th:onclick="'openItemModal(\'new\');'">Add new item</button>
+						
 			</div>
 		</div>
 	</div>
@@ -71,11 +69,14 @@
 <!-- 				<form th:action="@{/basket/add}" method="GET"> -->
 <!-- 					<input type="hidden" th:name="item_id" th:value="${item.id}" /> -->
 					<td th:text="${item.pictureUrl}"></td>
-					<td th:text="${item.name}"></td>
+					<td>
+						<button class="btn btn-md" type="button" th:onclick="'openItemModal(\'' +${item.id} + '\');'" th:text="${item.name}"></button>
+					
+					</td>
 					<td th:text="${item.category.name}"></td>
 					<td th:text="${item.timestamp}"></td>
 					<td>
-						<button class="btn btn-md" type="button" th:onclick="'openItemModal(\'' +${item.id} + '\');'">Add</button>
+						<button class="btn btn-md" type="button" th:onclick="'addToCart(\'' +${item.id} + '\');'">Add</button>
 					</td>
 <!-- 				</form> -->
 			</tr>
@@ -123,8 +124,8 @@
 		$.ajax({ type : "GET",
 			url: "http://localhost:8080/item/" +  id,
 			success: function(data) {
-				$("itemModalHolder").html(data);
-				$("itemModal").modal("show");
+				$("#itemModalHolder").html(data);
+				$("#itemModal").modal("show");
 		     },
 		     complete: function(xhr, textStatus) {
 		         console.log(xhr.status);
@@ -133,8 +134,9 @@
 	}
 	
 	function addToCart(id) {
-		$.post({
-		     url: "/basket/add/" +id,
+		$.get({
+		     url: "http://localhost:8080/basket/add",
+		     data: { "id": id },
 		     success: function(data, textStatus, xhr) {
 		         console.log(xhr.status);
 		     },

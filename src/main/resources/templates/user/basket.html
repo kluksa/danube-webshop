@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/layout}">
 
 <th:block layout:fragment="content">
-	<div class="row">
+<!-- 	<div class="row"> -->
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -16,7 +16,7 @@
 					<th scope="col">Delete</th>
 				</tr>
 			</thead>
-			<tr th:each="item : ${basketList}">
+			<tr th:each="item : ${items}">
 				<form th:action="@{/basket/remove}" method="GET">
 					<input type="hidden" th:name="id" th:value="${item.id}" />
 					<td th:text="${item.id}"></td>
@@ -25,11 +25,48 @@
 					<td th:text="${item.item.timestamp}"></td>
 					<td>
 						<button class="btn btn-md" type="submit">Remove</button>
-				</td>
+					</td>
 				</form>
 
 			</tr>
 		</table>
-	</div>
+<!-- 	</div> -->
+<!-- 	<div class="row"> -->
+		<div class="form-group col-md-1">
+			<select class="form-control pagination" id="pageSizeSelect">
+				<option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
+					th:value="${pageSize}"
+					th:selected="${pageSize} == ${selectedPageSize}"></option>
+			</select>
+		</div>
+		<div th:if="${items.totalPages != 1}"
+			class="form-group col-md-11 pagination-centered">
+			<ul class="pagination">
+				<li th:class="${items.number == 0} ? disabled"><a
+					class="pageLink"
+					th:href="@{basket/(pageSize=${selectedPageSize}, page=1)}">&laquo;</a></li>
+				<li th:class="${items.number == 0} ? disabled"><a
+					class="pageLink"
+					th:href="@{basket/(pageSize=${selectedPageSize}, page=${items.number})}">&larr;</a>
+				</li>
+				<li
+					th:class="${items.number == (page - 1)} ? 'active pointer-disabled'"
+					th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+					<a class="pageLink"
+					th:href="@{basket/(pageSize=${selectedPageSize}, page=${page})}"
+					th:text="${page}"></a>
+				</li>
+				<li th:class="${items.number + 1 == items.totalPages} ? disabled">
+					<a class="pageLink"
+					th:href="@{basket/(pageSize=${selectedPageSize}, page=${items.number + 2})}">&rarr;</a>
+				</li>
+				<li th:class="${items.number + 1 == items.totalPages} ? disabled">
+					<a class="pageLink"
+					th:href="@{basket/(pageSize=${selectedPageSize}, page=${items.totalPages})}">&raquo;</a>
+				</li>
+			</ul>
+		</div>
+<!-- 	</div> -->
+
 </th:block>
 </html>

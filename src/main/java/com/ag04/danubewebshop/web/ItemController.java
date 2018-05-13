@@ -3,10 +3,12 @@
  */
 package com.ag04.danubewebshop.web;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import javax.annotation.security.RolesAllowed;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
@@ -25,6 +27,7 @@ import com.ag04.danubewebshop.domain.Pager;
 import com.ag04.danubewebshop.service.ItemService;
 import com.ag04.danubewebshop.service.ProductCategoryService;
 import com.ag04.danubewebshop.service.ShoppingBasketService;
+import com.ag04.danubewebshop.service.UserService;
 
 /**
  * @author Lukša Kraljević, Srce
@@ -37,14 +40,13 @@ public class ItemController {
 	private static final int INITIAL_PAGE_SIZE = 5;
 	private static final int[] PAGE_SIZES = { 5, 10, 20 };
 
-	private final ItemService itemService;
-	private final ProductCategoryService productCategoryService;
-
-	public ItemController(ItemService itemService, ProductCategoryService productCategoryService,
-			ShoppingBasketService shoppingBasketService) {
-		this.itemService = itemService;
-		this.productCategoryService = productCategoryService;
-	}
+	@Autowired
+	private ItemService itemService;
+	@Autowired
+	private ProductCategoryService productCategoryService;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/")
 	public ModelAndView itemList(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -67,17 +69,31 @@ public class ItemController {
 	
 	@RequestMapping("/item/{id}")
 	public String item(@PathVariable("id") Long id, ModelMap model) {
-		System.out.println("EEEEEEEEEEEEEE");
 		Optional<Item> item = itemService.findById(id);
 		model.addAttribute("item", item.get());
 		return "layout/item_details :: modalContents";
 	}
+	
+	@GetMapping("/item/new")
+	@RolesAllowed("ROLE_ADMIN")
+	public String newItem( ModelMap model, Principal principal) {
+		Item item = new Item();
+		item.setAuthor(userService.findByUsername(principal.getName()).get());
+		model.addAttribute("writeable", true);
+		model.addAttribute("item", item);
+		return "layout/item_details :: modalContents";
+	}
+	
 
 	@RolesAllowed("ROLE_ADMIN")
-	@PostMapping("/add")
-	public String addItemP(@RequestParam("id") Integer id) {
-		//itemService.addItem(item);
-		System.out.println(id);
+	@PostMapping("/item/")
+	public String addItemP(String name,  String description, String pictureUrl ) {
+		
+		Item item = new Item();
+		item.setName(name);
+		item.setDescription(description);
+		item.setPictureUrl(pictureUrl);
+		itemService.addItem(item);
 		return "redirect:/";
 	}
 

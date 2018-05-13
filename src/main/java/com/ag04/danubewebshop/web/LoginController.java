@@ -17,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
    @GetMapping( "/login" )
-   public ModelAndView login(@RequestParam("error") Optional<Boolean> error, 
-		   @RequestParam("logout") Optional<Boolean> logout) {
+   public ModelAndView login(@RequestParam(name="logout", required=false) String logout, Error error) {
 	   ModelAndView modelAndView = new ModelAndView("login");
-	   modelAndView.addObject("error", error);
 	   modelAndView.addObject("logout", logout);
 	   return modelAndView;
    }
