@@ -27,7 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Item {
 	@Id
 	@GeneratedValue
-	private Integer id;
+	private Long id;
 
 	@NotNull
 	@NotEmpty
@@ -49,23 +49,15 @@ public class Item {
 
 	private Date timestamp;
 
-	public Item(Integer id, String name, ProductCategory category, String description, String pictureUrl  ) {
-	   this.id = id;
-	   this.name = name;
-	   this.category = category;
-	   this.description = description;
-	   this.pictureUrl = pictureUrl;
-	}
-	
 	public Item() {
 	   
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

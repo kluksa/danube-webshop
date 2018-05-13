@@ -4,6 +4,7 @@
 package com.ag04.danubewebshop.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -26,12 +27,12 @@ public class UserServiceImpl implements UserService {
    }
    
    @Override
-   public User findByUsername(String username) {
+   public Optional<User> findByUsername(String username) {
       List<User> users = userRepository.findByUsername(username);
       if ( users.size() > 0 ) {
-         return users.get(0);
+         return Optional.of(users.get(0));
       } else {
-         return null;
+         return Optional.empty();
       }
    }
 

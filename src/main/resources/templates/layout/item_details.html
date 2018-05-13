@@ -1,0 +1,53 @@
+<div id="itemModal" class="modal fade" tabindex="-1"
+	role="dialog" th:fragment="modalContents">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="row">
+						<label for="itemId" class="sr-only">Id:</label> <input type="text"
+							id="itemId" class="form-control" readonly th:value="${item.id}">
+					</div>
+					<label for="itemId" class="sr-only">Name:</label> <input
+						type="text" id="itemId" class="form-control" readonly
+						th:value="${item.name}">
+					<div class="row"></div>
+					<label for="itemCategory" class="sr-only">Category:</label> <input
+						type="text" id="itemCategory" class="form-control" readonly
+						th:value="${item.category.name}">
+					<div class="row"></div>
+					<label for="itemDescription" class="sr-only">Description:</label> <input
+						type="text" id="itemDescription" class="form-control" readonly
+						th:value="${item.description}">
+					<div class="row"></div>
+
+					<label for=itemPictureUrl class="sr-only">PictureUrl:</label> <input
+						type="text" id="itemPictureUrl" class="form-control" readonly
+						th:value="${item.pictureUrl}">
+					<div class="row"></div>
+					<label for="itemAuthor" class="sr-only">Author:</label> <input
+						type="text" id="itemAuthor" class="form-control" readonly
+						th:value="${item.author.username}">
+					<div class="row"></div>
+					<label for="itemTimestamp" class="sr-only">Timestamp:</label> <input
+						type="text" id="itemTimestamp" class="form-control" readonly
+						th:value="${item.timestamp}">
+					<div class="row"></div>
+			</div>
+
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!-- 			<button type="button" class="btn btn-primary">Save changes</button> -->
+		</div>
+		</form>
+	</div>
+</div>
+</div>

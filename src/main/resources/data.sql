@@ -1,9 +1,13 @@
-INSERT INTO tbl_user (id, username, enabled) values (1, 'peric', TRUE);
-INSERT INTO tbl_user (id, username, enabled) values (2, 'zderic', TRUE);
-INSERT INTO tbl_user (id, username, enabled) values (3, 'seric', TRUE);
+INSERT INTO tbl_user (id, username, password, enabled) values (1, 'prvi', '$2a$10$uKNzFDk6rppd4LVl5lWMSuezgVkr3c5fL4bTUji4E4ZnKY5McVozC', TRUE);
+INSERT INTO tbl_user (id, username, password, enabled) values (2, 'drugi', '$2a$10$HTNRHCkRkKpi8j80eSCsTedTcwhVcA2ZQqT0WjxgjecoA73uQq.7a', TRUE);
+INSERT INTO tbl_user (id, username, password, enabled) values (3, 'treci', '$2a$10$zB9BM1F4WypNzMUQ/GO1w.zxNPT9y5rAixAwP0QRLDH5Ozln3cnR2', TRUE);
 
-INSERT INTO tbl_role (id, name) values (1, 'admin');
-INSERT INTO tbl_role (id, name) values (2, 'user');
+
+
+
+
+INSERT INTO tbl_role (id, name) values (1, 'ROLE_ADMIN');
+INSERT INTO tbl_role (id, name) values (2, 'ROLE_USER');
 
 INSERT INTO user_has_roles (user_id, role_id) values (1, 1);
 INSERT INTO user_has_roles (user_id, role_id) values (1, 2);

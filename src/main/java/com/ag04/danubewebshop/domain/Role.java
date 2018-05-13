@@ -33,7 +33,7 @@ public class Role {
 	@NotNull
 	private String name;
 
-	@ManyToMany(mappedBy = "hasRoles")
+	@ManyToMany(mappedBy = "roles")
 	private Set<User> users = new HashSet<>();
 
 	public Integer getId() {
@@ -66,7 +66,6 @@ public class Role {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 
@@ -89,17 +88,12 @@ public class Role {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (users == null) {
-			if (other.users != null)
-				return false;
-		} else if (!users.equals(other.users))
-			return false;
 		return true;
 	}
 
    @Override
    public String toString() {
-      return "Role [id=" + id + ", roleName=" + name + ", users= + users + ]";
+      return "Role [id=" + id + ", roleName=" + name + "]";
    }
 	
 

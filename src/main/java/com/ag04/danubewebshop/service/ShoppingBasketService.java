@@ -5,7 +5,8 @@ package com.ag04.danubewebshop.service;
 
 import java.util.List;
 
-import com.ag04.danubewebshop.domain.Item;
+import com.ag04.danubewebshop.domain.ShoppingBasket;
+import com.ag04.danubewebshop.domain.User;
 
 /**
  * @author Lukša Kraljević, Srce
@@ -13,10 +14,10 @@ import com.ag04.danubewebshop.domain.Item;
  */
 public interface ShoppingBasketService {
    
-   public void addItem(Item item);
+   public void addWithItemId(Long itemId, User user);
+
+   public void removeById(Long id, User user);
    
-   public List<Item> getAllItems();
-   
-   public void removeItem(Item item);
+   public List<ShoppingBasket> findAllByUser(User user);
 
 }

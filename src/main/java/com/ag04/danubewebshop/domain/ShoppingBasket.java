@@ -11,6 +11,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,12 +21,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  *
  */
 @Entity
+@Table(name="tbl_basket")
 @EntityListeners(AuditingEntityListener.class)
 public class ShoppingBasket {
 
 	@Id
 	@GeneratedValue
-	private Integer id;
+	private Long id;
 
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -37,11 +39,11 @@ public class ShoppingBasket {
 
 	private Date time;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

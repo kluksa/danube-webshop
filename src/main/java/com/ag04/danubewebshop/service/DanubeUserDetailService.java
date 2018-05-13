@@ -6,6 +6,7 @@ package com.ag04.danubewebshop.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -34,10 +35,15 @@ public class DanubeUserDetailService implements UserDetailsService {
    @Transactional(readOnly = true)
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      User user = userService.findByUsername(username);
+      Optional<User> user = userService.findByUsername(username);
 
-      List<GrantedAuthority> authorities = buildUserAuthority(user.getHasRoles());
-      return buildUserForAuthentication(user, authorities);
+      Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+      for (Role role : user.get().getRoles()){
+          grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+      }
+
+      return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), grantedAuthorities);
+
    }
 
    private List<GrantedAuthority> buildUserAuthority(Set<Role> userRoles) {

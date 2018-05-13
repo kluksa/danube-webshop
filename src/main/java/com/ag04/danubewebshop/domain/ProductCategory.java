@@ -22,7 +22,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class ProductCategory {
 	@Id
 	@GeneratedValue
-	private Integer id;
+	private Long id;
 
 	@NotNull
 	private String name;
@@ -36,11 +36,11 @@ public class ProductCategory {
    }
 	
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

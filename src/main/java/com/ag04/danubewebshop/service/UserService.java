@@ -3,6 +3,8 @@
  */
 package com.ag04.danubewebshop.service;
 
+import java.util.Optional;
+
 import com.ag04.danubewebshop.domain.User;
 
 /**
@@ -11,6 +13,6 @@ import com.ag04.danubewebshop.domain.User;
  */
 public interface UserService {
    
-   public User findByUsername(String username);
+   public Optional<User> findByUsername(String username);
 
 }

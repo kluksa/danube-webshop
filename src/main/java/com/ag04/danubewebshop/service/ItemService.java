@@ -4,6 +4,7 @@
 package com.ag04.danubewebshop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,8 @@ public interface ItemService {
    
    public void removeItem(Item item);
    
-   public List<Item> findAllItems();
-   
    public Page<Item> findAllPageable(Pageable pageable);
+   
+   public Optional<Item> findById(Long id);
 
 }
