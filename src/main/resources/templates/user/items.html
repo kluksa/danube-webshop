@@ -15,16 +15,16 @@
 	
 		<form th:action="@{/}" method='GET'>
 			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">Search product:</div>
+				<div class="col-md-5"></div>
+				<div class="col-md-3">Search product:</div>
 				<div class="col-md-4">
 					<input type="text" id="productSearch" class="form-control"
 						name="searchString">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">Search by:</div>
+				<div class="col-md-5"></div>
+				<div class="col-md-3">Search by:</div>
 				<div class="col-md-4">
 					<select class="form-control" name="searchCriteria"
 						id="searchCriteria">
@@ -52,10 +52,10 @@
 		</form>
 
 	</div>
-	<div th:if="${items.totalElements == 0}">
+	<div th:if="${#lists.size(items) == 0}">
 		<h2>No items for this criteria</h2>
 	</div>
-	<div th:if="${items.totalElements != 0}">
+	<div th:if="${#lists.size(items) != 0}">
 
 		<div class="row">
 			<table id="itemTable" class="table table-striped table-bordered">
@@ -86,39 +86,20 @@
 			</table>
 		</div>
 
-
-		<div class="row">
-			<div th:if="${items.totalPages != 1}"
-				class="form-group col-md-11 pagination-centered">
-				<nav aria-label="Pagination">
-					<ul class="pagination">
-						<li
-							th:class="${items.number == 0} ? 'page-item disabled' : page-item"><a
-							class="page-link"
-							th:href="@{/(searchString=${searchString}, searchCriteria=${searchCriteria}, pageSize=${selectedPageSize}, page=${items.number})}">Previous</a>
-						</li>
-
-						<li
-							th:class="${items.number == (page - 1)} ? 'page-item active pointer-disabled' : page-item"
-							th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-							<a class="page-link"
-							th:href="@{/(searchString=${searchString}, searchCriteria=${searchCriteria}, pageSize=${selectedPageSize}, page=${page})}"
-							th:text="${page}"></a>
-						</li>
-
-						<li
-							th:class="${items.number + 1 == items.totalPages} ? 'page-item disabled' : page-item">
-							<a class="page-link"
-							th:href="@{/(searchString=${searchString}, searchCriteria=${searchCriteria}, pageSize=${selectedPageSize}, page=${items.number + 2})}">Next</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
 		</div>
 	</div>
 	<div id="itemModalHolder"></div>
 	<script>
+	$(document).ready(function() {
+	    $('#itemTable').DataTable(
+	    {
+	    	"info":     false,
+	    	"lengthChange" : false,
+	    	"pageLength" : 4,
+	    	"searching": false
+	    }		
+	    );
+	} );
 		function openItemModal(id) {
 			$.ajax({
 				type : "GET",

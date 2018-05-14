@@ -4,6 +4,7 @@
 package com.ag04.danubewebshop.web;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.security.RolesAllowed;
@@ -23,11 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ag04.danubewebshop.domain.Item;
-import com.ag04.danubewebshop.domain.Pager;
 import com.ag04.danubewebshop.domain.ProductCategory;
 import com.ag04.danubewebshop.service.ItemService;
 import com.ag04.danubewebshop.service.ProductCategoryService;
-import com.ag04.danubewebshop.service.ShoppingBasketService;
 import com.ag04.danubewebshop.service.UserService;
 
 /**
@@ -36,9 +35,6 @@ import com.ag04.danubewebshop.service.UserService;
  */
 @Controller
 public class ItemController {
-	private static final int BUTTONS_TO_SHOW = 5;
-	private static final int INITIAL_PAGE = 0;
-	private static final int INITIAL_PAGE_SIZE = 5;
 
 	@Autowired
 	private ItemService itemService;
@@ -49,36 +45,29 @@ public class ItemController {
 	private UserService userService;
 
 	@GetMapping("/")
-	public ModelAndView itemList(@RequestParam("pageSize") Optional<Integer> pageSize,
-			@RequestParam("page") Optional<Integer> page, 
-			@RequestParam("searchCriteria") Optional<Long> searchCriteria,
+	public ModelAndView itemList(
+			@RequestParam("searchCriteria") Optional<Long> categoryId,
 			@RequestParam("searchString") Optional<String> searchString,
 			@RequestParam("all") Optional<String> all
 			) {
 		ModelAndView modelAndView = new ModelAndView("user/items");
 
-		int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
-		int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
-		Page<Item> items = null;
+		List<Item> items = null;
 		if ( ! all.isPresent() && searchString.isPresent() && !searchString.get().isEmpty()) {
-		   if ( searchCriteria.isPresent()) {
-		      modelAndView.addObject("searchCriteria", searchCriteria.get());
-		      items = itemService.findByNameOrDescriptionAndCategoryPageable(searchString.get(), searchCriteria.get(), PageRequest.of(evalPage, evalPageSize));
+		   if ( categoryId.isPresent()) {
+		      modelAndView.addObject("searchCriteria", categoryId.get());
+		      items = itemService.findByNameOrDescriptionAndCategoryId(searchString.get(), categoryId.get());
 		   } else  {
-		      items = itemService.findByNameOrDescription(searchString.get(), PageRequest.of(evalPage, evalPageSize));
+			      items = itemService.findByNameOrDescription(searchString.get());
 		   }
 	      modelAndView.addObject("searchString", searchString.get());
 	      
 		} else {
-		   items = itemService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
+			   items = itemService.findAll();
 		}
-		
-		Pager pager = new Pager(items.getTotalPages(), items.getNumber(), BUTTONS_TO_SHOW);
 		
 		modelAndView.addObject("productCategories", productCategoryService.findAllUsed());
 		modelAndView.addObject("items", items);
-		modelAndView.addObject("selectedPageSize", evalPageSize);
-		modelAndView.addObject("pager", pager);
 		return modelAndView;
 	}
 	

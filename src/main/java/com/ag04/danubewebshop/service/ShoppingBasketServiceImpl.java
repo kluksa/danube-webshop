@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -48,10 +46,10 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 		}
 	}
 
-	@Cacheable(value="basket", key= "{#user, #pageable}")
+	@Cacheable(value="basket", key= "{#user}")
 	@Override
-	public Page<ShoppingBasket> findAllByUser(User user, Pageable pageable) {
-		return repo.findByUser(user, pageable);
+	public List<ShoppingBasket> findAllByUser(User user) {
+		return repo.findByUser(user);
 	}
 
 }

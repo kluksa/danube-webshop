@@ -3,6 +3,8 @@
  */
 package com.ag04.danubewebshop.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -18,6 +20,6 @@ import com.ag04.danubewebshop.domain.User;
 @Repository
 public interface ShoppingBasketRepository extends PagingAndSortingRepository<ShoppingBasket, Long>{
 
-	Page<ShoppingBasket> findByUser(User user, Pageable page);
+	List<ShoppingBasket> findByUser(User user);
 
 }

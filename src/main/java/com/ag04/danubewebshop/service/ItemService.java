@@ -21,14 +21,14 @@ public interface ItemService {
    
    public void addItem(Item item);
    
-   public void removeItem(Item item);
-   
-   public Page<Item> findAllPageable(Pageable pageable);
-   
    public Optional<Item> findById(Long id);
-   
-   public Page<Item> findByNameOrDescription(String name, Pageable pageable);
 
-   public Page<Item> findByNameOrDescriptionAndCategoryPageable(String string, Long categoryId, PageRequest page);
+   public List<Item> findAll();
+   
+   public List<Item> findByCategoryId(Long categoryId);
+   
+   public List<Item> findByNameOrDescription(String name);
+
+   public List<Item> findByNameOrDescriptionAndCategoryId(String string, Long categoryId);
 
 }

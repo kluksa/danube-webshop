@@ -5,79 +5,63 @@
 	layout:decorate="~{layout/layout}">
 
 <th:block layout:fragment="content">
-	<div th:if="${items.totalElements == 0}"><h1 >Your basket is empty.</h1> </div>
-	<div th:if="${items.totalElements != 0}">
-		<!-- 	<div class="row"> -->
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col">No.</th>
-					<th scope="col">Name</th>
-					<th scope="col">Category</th>
-					<th scope="col">Date</th>
-					<th scope="col">Delete</th>
-				</tr>
-			</thead>
-			<tr th:each="item, iter : ${items}">
-				<form th:action="@{/basket/remove}" method="GET">
-					<input type="hidden" th:name="id" th:value="${item.id}" />
+	<div class="container">
+		<div th:if="${#lists.size(items) == 0}">
+			<h1>Your basket is empty.</h1>
+		</div>
+		<div th:if="${#lists.size(items) != 0}">
+			<table id="itemTable" class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">No.</th>
+						<th scope="col">Name</th>
+						<th scope="col">Category</th>
+						<th scope="col">Date</th>
+						<th scope="col">Delete</th>
+					</tr>
+				</thead>
+				<tr th:each="item, iter : ${items}">
 					<td th:text="${iter.index+1}"></td>
 					<td th:text="${item.item.name}"></td>
 					<td th:text="${item.item.category.name}"></td>
 					<td th:text="${item.item.timestamp}"></td>
 					<td>
-						<button class="btn btn-md" type="submit">Remove</button>
+						<button class="btn btn-default"
+							th:attr="data-href=@{/basket/remove}+'?id='+${item.id}"
+							data-toggle="modal" data-target="#confirm-delete">
+							Remove from basket</button>
 					</td>
-				</form>
 
-			</tr>
-		</table>
-		<div class="row">
-		<div class="form-group col-sm-2">
-			<select class="form-control" id="pageSizeSelect">
-				<option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
-					th:value="${pageSize}"
-					th:selected="${pageSize} == ${selectedPageSize}"></option>
-			</select>
+				</tr>
+			</table>
 		</div>
-		<div th:if="${items.totalPages != 1}"
-			class="form-group col-md-10 pagination-centered">
-			<nav aria-label="Pagination">
-				<ul class="pagination">
-					<li
-						th:class="${items.number == 0} ? 'page-item disabled' : page-item"><a
-						class="page-link"
-						th:href="@{/basket/(pageSize=${selectedPageSize}, page=${items.number})}">Previos</a>
-					</li>
-
-					<li
-						th:class="${items.number == (page - 1)} ? 'page-item active pointer-disabled' : page-item"
-						th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
-						<a class="page-link"
-						th:href="@{/basket/(pageSize=${selectedPageSize}, page=${page})}"
-						th:text="${page}"></a>
-					</li>
-
-					<li
-						th:class="${items.number + 1 == items.totalPages} ? 'page-item disabled' : page-item">
-						<a class="page-link"
-						th:href="@{/basket/(pageSize=${selectedPageSize}, page=${items.number + 2})}">Next</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
+	</div>
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>Confirm removal</h2>
+				</div>
+				<div class="modal-body">Are you sure?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-danger btn-ok">Delete</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script>
-	$(document).ready(function() {
-		changePageAndSize();
-	});
-
-	function changePageAndSize() {
-		$('#pageSizeSelect').change(function(evt) {
-			window.location.replace("/basket/?pageSize=" + this.value + "&page=1");
+		$(document).ready(function() {
+			$('#itemTable').DataTable({
+				"info" : false,
+				"lengthChange" : false,
+				"pageLength" : 4,
+				"searching" : false
+			});
 		});
-	}
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+		    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+		});
 	</script>
 </th:block>
 </html>

@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ag04.danubewebshop.domain.ProductCategory;
-import com.ag04.danubewebshop.repository.ItemRepository;
 import com.ag04.danubewebshop.repository.ProductCategoryRepository;
 
 @Service
