@@ -6,51 +6,111 @@
 
 <th:block layout:fragment="content">
 	<div class="container">
+		<div class="card" style="width: 1000px;">
+			<div class="card-header">
+				<h1 th:text="#{basket.title}"></h1>
+			</div>
+		</div>
+		<div class="card-body">
+
+			<form th:action="@{/}" method='GET'>
+				<div class="row">
+					<div class="col-md-5"></div>
+					<div class="col-md-3" th:text="#{search_product}">Search
+						product:</div>
+					<div class="col-md-4">
+						<input type="text" id="productSearch" class="form-control"
+							name="searchString">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5"></div>
+					<div class="col-md-3" th:text=#{search_by}>Search by:</div>
+					<div class="col-md-4">
+						<select class="form-control" name="searchCriteria"
+							id="searchCriteria">
+							<option value="" th:text="#{item.all_categories}">All
+								categories</option>
+							<option th:each="category: ${productCategories}"
+								th:value="${category.id}" th:text="${category.name}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8"></div>
+					<div class="col-md-2">
+						<button class="btn btn-sm btn-primary btn-block" type="submit"
+							name="all" value="all" th:text="#{clear}">Clear</button>
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-sm btn-primary btn-block" type="submit"
+							th:text="#{search}">Search</button>
+					</div>
+				</div>
+			</form>
+
+		</div>
 		<div th:if="${#lists.size(items) == 0}">
-			<h1>Your basket is empty.</h1>
+			<h2 th:text="#{basket.empty}"></h2>
+			<!--<h2>No items for this criteria</h2>-->
 		</div>
 		<div th:if="${#lists.size(items) != 0}">
-			<table id="itemTable" class="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">No.</th>
-						<th scope="col">Name</th>
-						<th scope="col">Category</th>
-						<th scope="col">Date</th>
-						<th scope="col">Delete</th>
-					</tr>
-				</thead>
-				<tr th:each="item, iter : ${items}">
-					<td th:text="${iter.index+1}"></td>
-					<td th:text="${item.item.name}"></td>
-					<td th:text="${item.item.category.name}"></td>
-					<td th:text="${item.item.timestamp}"></td>
-					<td>
-						<button class="btn btn-default"
-							th:attr="data-href=@{/basket/remove}+'?id='+${item.id}"
-							data-toggle="modal" data-target="#confirm-delete">
-							Remove from basket</button>
-					</td>
 
-				</tr>
-			</table>
+			<div class="row">
+				<table id="itemTable" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th scope="col" th:text="#{item.picture}">Picture</th>
+							<th scope="col" th:text="#{item.name}">Name</th>
+							<th scope="col" th:text="#{item.category}">Category</th>
+							<th scope="col" th:text="#{item.date}">Date</th>
+							<th scope="col"
+								th:text="#{basket.remove_header}">Add</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${items}">
+							<td><img th:src="@{${item.item.pictureUrl}}"
+								class="img-thumbnail"></td>
+							<td><a href="#"
+								th:onclick="'openItemModal(\'' +${item.id} + '\');'"
+								th:text="${item.item.name}"></a></td>
+							<td th:text="${item.item.category.name}"></td>
+							<td th:text="${item.time}"></td>
+							<td>
+								<button class="btn btn-md"
+									th:attr="data-href=@{/basket/remove}+'?id='+${item.id}"
+									data-toggle="modal" data-target="#confirm-delete"
+									th:text="#{basket.remove}">Remove from basket</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
+	<div id="itemModalHolder"></div>
 	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h2>Confirm removal</h2>
+					<h2 th:text="#{confirm_removal}">Confirm removal</h2>
 				</div>
-				<div class="modal-body">Are you sure?</div>
+				<div class="modal-body" th:text="#{are_you_sure}">Are you sure?</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<a class="btn btn-danger btn-ok">Delete</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{cancel}">Cancel</button>
+					<a class="btn btn-danger btn-ok" th:text="#{delete}">Delete</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
+		$('#confirm-delete').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.btn-ok').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
 		$(document).ready(function() {
 			$('#itemTable').DataTable({
 				"info" : false,
@@ -59,9 +119,19 @@
 				"searching" : false
 			});
 		});
-		$('#confirm-delete').on('show.bs.modal', function(e) {
-		    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-		});
+		function openItemModal(id) {
+			$.ajax({
+				type : "GET",
+				url : "/item/" + id,
+				success : function(data) {
+					$("#itemModalHolder").html(data);
+					$("#itemModal").modal("show");
+				},
+				complete : function(xhr, textStatus) {
+					console.log(xhr.status);
+				}
+			});
+		}
 	</script>
 </th:block>
 </html>
