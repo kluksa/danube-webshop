@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -40,13 +41,14 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 
 		Optional<ShoppingBasket> entry = repo.findById(id);
 		if (user.equals(entry.get().getUser())) {
-//			repo.delete(entry.get());
-			repo.deleteById(id);
+			repo.delete(entry.get());
+//			repo.deleteById(id);
 		} else {
 			throw new AccessDeniedException("User has no rights");
 		}
 	}
 
+	@Cacheable(value="basket", key= "{#user, #pageable}")
 	@Override
 	public Page<ShoppingBasket> findAllByUser(User user, Pageable pageable) {
 		return repo.findByUser(user, pageable);

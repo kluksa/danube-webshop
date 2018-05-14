@@ -36,7 +36,7 @@ public class DanubeUserDetailService implements UserDetailsService {
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
       Optional<User> user = userService.findByUsername(username);
-
+      if ( ! user.isPresent() ) throw new UsernameNotFoundException(username);
       Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
       for (Role role : user.get().getRoles()){
           grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));

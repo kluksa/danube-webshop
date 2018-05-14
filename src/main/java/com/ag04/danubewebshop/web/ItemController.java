@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ag04.danubewebshop.domain.Item;
 import com.ag04.danubewebshop.domain.Pager;
+import com.ag04.danubewebshop.domain.ProductCategory;
 import com.ag04.danubewebshop.service.ItemService;
 import com.ag04.danubewebshop.service.ProductCategoryService;
 import com.ag04.danubewebshop.service.ShoppingBasketService;
@@ -38,7 +39,6 @@ public class ItemController {
 	private static final int BUTTONS_TO_SHOW = 5;
 	private static final int INITIAL_PAGE = 0;
 	private static final int INITIAL_PAGE_SIZE = 5;
-	private static final int[] PAGE_SIZES = { 5, 10, 20 };
 
 	@Autowired
 	private ItemService itemService;
@@ -50,19 +50,34 @@ public class ItemController {
 
 	@GetMapping("/")
 	public ModelAndView itemList(@RequestParam("pageSize") Optional<Integer> pageSize,
-			@RequestParam("page") Optional<Integer> page) {
+			@RequestParam("page") Optional<Integer> page, 
+			@RequestParam("searchCriteria") Optional<Long> searchCriteria,
+			@RequestParam("searchString") Optional<String> searchString,
+			@RequestParam("all") Optional<String> all
+			) {
 		ModelAndView modelAndView = new ModelAndView("user/items");
 
 		int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
 		int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
-
-		Page<Item> items = itemService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
+		Page<Item> items = null;
+		if ( ! all.isPresent() && searchString.isPresent() && !searchString.get().isEmpty()) {
+		   if ( searchCriteria.isPresent()) {
+		      modelAndView.addObject("searchCriteria", searchCriteria.get());
+		      items = itemService.findByNameOrDescriptionAndCategoryPageable(searchString.get(), searchCriteria.get(), PageRequest.of(evalPage, evalPageSize));
+		   } else  {
+		      items = itemService.findByNameOrDescription(searchString.get(), PageRequest.of(evalPage, evalPageSize));
+		   }
+	      modelAndView.addObject("searchString", searchString.get());
+	      
+		} else {
+		   items = itemService.findAllPageable(PageRequest.of(evalPage, evalPageSize));
+		}
+		
 		Pager pager = new Pager(items.getTotalPages(), items.getNumber(), BUTTONS_TO_SHOW);
-
-		modelAndView.addObject("productCategories", productCategoryService.findAll());
+		
+		modelAndView.addObject("productCategories", productCategoryService.findAllUsed());
 		modelAndView.addObject("items", items);
 		modelAndView.addObject("selectedPageSize", evalPageSize);
-		modelAndView.addObject("pageSizes", PAGE_SIZES);
 		modelAndView.addObject("pager", pager);
 		return modelAndView;
 	}
@@ -79,6 +94,7 @@ public class ItemController {
 	public String newItem( ModelMap model, Principal principal) {
 		Item item = new Item();
 		item.setAuthor(userService.findByUsername(principal.getName()).get());
+	   model.addAttribute("productCategories",  productCategoryService.findAll());
 		model.addAttribute("writeable", true);
 		model.addAttribute("item", item);
 		return "layout/item_details :: modalContents";
@@ -87,10 +103,11 @@ public class ItemController {
 
 	@RolesAllowed("ROLE_ADMIN")
 	@PostMapping("/item/")
-	public String addItemP(String name,  String description, String pictureUrl ) {
-		
+	public String addItemP(String name, Long categoryId, String description, String pictureUrl ) {
 		Item item = new Item();
 		item.setName(name);
+		Optional<ProductCategory> category = productCategoryService.findById(categoryId);
+		item.setCategory(category.get());
 		item.setDescription(description);
 		item.setPictureUrl(pictureUrl);
 		itemService.addItem(item);

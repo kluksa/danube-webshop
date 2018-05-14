@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.ag04.danubewebshop.domain.Item;
-import com.ag04.danubewebshop.domain.User;
 
 /**
  * @author Lukša Kraljević, Srce
@@ -26,5 +26,9 @@ public interface ItemService {
    public Page<Item> findAllPageable(Pageable pageable);
    
    public Optional<Item> findById(Long id);
+   
+   public Page<Item> findByNameOrDescription(String name, Pageable pageable);
+
+   public Page<Item> findByNameOrDescriptionAndCategoryPageable(String string, Long categoryId, PageRequest page);
 
 }

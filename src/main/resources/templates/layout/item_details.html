@@ -35,8 +35,13 @@
 							<div class="row">
 								<label for="itemCategory" class="col-sm-3 col-form-label">Category:</label>
 								<div class="col-sm-9">
-<!-- 									<input type="text" id="itemCategory" class="form-control" -->
-<!-- 										readonly th:value="${item.category.name}"></input> -->
+									<input th:if="${(writeable == null || !writeable)}" type="text" id="itemCategory" class="form-control"
+										readonly th:value="${item.category.name}"></input>
+									<div th:if="${(writeable != null  && writeable)}">
+										<select class="form-control" id="categories">
+											<option th:each="category: ${productCategories}" th:name="categoryId" th:value="${category.id}" th:text="${category.name}"></option>
+										</select>
+									</div>
 								</div>
 							</div>
 							<div class="row">

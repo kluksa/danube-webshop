@@ -1,48 +1,54 @@
 <!DOCTYPE html>
 <html lang="hr" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-  <head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
 <!--     <link rel="icon" href="../../favicon.ico"> -->
 
-	<link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
-	<link th:href="@{/css/danube-webshop.css}" href="css/danube-webshop.css" rel="stylesheet" />
+<link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css"
+	rel="stylesheet" />
+<link th:href="@{/css/danube-webshop.css}" href="css/danube-webshop.css"
+	rel="stylesheet" />
 
-    <title>Signin Template for Bootstrap</title>
+<title>Danube webshop</title>
 
-    <!-- Custom styles for this template -->
+<!-- Custom styles for this template -->
 
-  </head>
+</head>
 
-  <body>
-  
-
-    <div class="container">
-
-      <form class="form-signin" th:action="@{/login}" method='POST'>
-        <h1 class="form-signin-heading">Please sign in</h1>
-        <div th:if="${param.error}" class="alert alert-warning alert-dismissible fade show" role="alert">
-        	Bad username or password!
-        </div>
-        <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
-        	So long!
-        </div>
-<!--     	<h2 th:if="${param.error}" class="alert alert-error">Greška</h2> -->
-<!--     	<h2 th:if="${param.logout}" class="alert alert-success">Doviđenja</h2> -->
-        <label for="inputEmail" class="sr-only">Username</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus name="username">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
-
-    </div> <!-- /container -->
+<body>
 
 
-  </body>
+<div class="login-form">
+	<form th:action="@{/login}" method='POST'>
+		<div class="text-center mb-4">
+			<h1 class="h3 mb-3 font-weight-normal">Danube webshop</h1>
+			<div th:if="${param.error}"
+				class="alert alert-danger alert-dismissible fade show" role="alert">
+				Bad username or password!</div>
+			<div th:if="${param.logout}"
+				class="alert alert-success alert-dismissible fade show" role="alert">
+				So long!</div>
+		</div>
+		<!--     	<h2 th:if="${param.error}" class="alert alert-error">Greška</h2> -->
+		<!--     	<h2 th:if="${param.logout}" class="alert alert-success">Doviđenja</h2> -->
+		<div class="form-group">
+			<label for="inputUsername">Username</label> 
+			<input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus name="username">
+		</div>
+		<div class="form-group">
+			<label for="inputPassword" class="sr-only">Password</label> 
+			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
+		</div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+	</form>
+
+</div>
+
+</body>
 </html>

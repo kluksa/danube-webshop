@@ -31,11 +31,11 @@ public class ShoppingBasket {
 	private Long id;
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private User user;
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Item item;
 
 	@CreationTimestamp
