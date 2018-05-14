@@ -24,7 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name="tbl_basket")
 @EntityListeners(AuditingEntityListener.class)
-public class ShoppingBasket {
+public class ShoppingBasket extends AuditableEntity {
 
 	@Id
 	@GeneratedValue
@@ -37,9 +37,6 @@ public class ShoppingBasket {
 	@NotNull
 	@ManyToOne
 	private Item item;
-
-	@CreationTimestamp
-	private Date time;
 
 	public Long getId() {
 		return id;
@@ -65,21 +62,12 @@ public class ShoppingBasket {
 		this.item = item;
 	}
 
-	public Date getTime() {
-		return time;
-	}
-
-	public void setTime(Date time) {
-		this.time = time;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((item == null) ? 0 : item.hashCode());
-		result = prime * result + ((time == null) ? 0 : time.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -88,7 +76,7 @@ public class ShoppingBasket {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -103,11 +91,6 @@ public class ShoppingBasket {
 				return false;
 		} else if (!item.equals(other.item))
 			return false;
-		if (time == null) {
-			if (other.time != null)
-				return false;
-		} else if (!time.equals(other.time))
-			return false;
 		if (user == null) {
 			if (other.user != null)
 				return false;
@@ -116,11 +99,10 @@ public class ShoppingBasket {
 		return true;
 	}
 
-   @Override
-   public String toString() {
-      return "ShoppingBasket [id=" + id + ", user=" + user + ", item=" + item + ", time=" + time +
-               "]";
-   }
-
+	@Override
+	public String toString() {
+		return "ShoppingBasket [id=" + id + ", user=" + user + ", item=" + item + ", createdAt=" + createdAt
+				+ ", createdBy=" + createdBy + "]";
+	}
 	
 }

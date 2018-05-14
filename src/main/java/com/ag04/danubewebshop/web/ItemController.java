@@ -82,7 +82,7 @@ public class ItemController {
 	@RolesAllowed("ROLE_ADMIN")
 	public String newItem( ModelMap model, Principal principal) {
 		Item item = new Item();
-		item.setAuthor(userService.findByUsername(principal.getName()).get());
+//		item.setAuthor(userService.findByUsername(principal.getName()).get());
 	   model.addAttribute("productCategories",  productCategoryService.findAll());
 		model.addAttribute("writeable", true);
 		model.addAttribute("item", item);

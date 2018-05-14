@@ -22,20 +22,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name="tbl_product_category")
 @EntityListeners(AuditingEntityListener.class)
-public class ProductCategory {
+public class ProductCategory extends AuditableEntity{
 	@Id
 	@GeneratedValue
 	private Long id;
 
 	@NotNull
 	private String name;
-	
-	@CreationTimestamp
-	private Date timestamp;
-	
-	public ProductCategory() {
-	   
-	}
 	
 	public Long getId() {
 		return id;
@@ -52,22 +45,13 @@ public class ProductCategory {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		int result = super.hashCode();
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -75,28 +59,28 @@ public class ProductCategory {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ProductCategory other = (ProductCategory) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
 		return true;
 	}
 
-   @Override
-   public String toString() {
-      return "ProductCategory [id=" + id + ", name=" + name + "]";
-   }
-	
+	@Override
+	public String toString() {
+		return "ProductCategory [id=" + id + ", name=" + name + ", createdAt=" + createdAt + ", createdBy=" + createdBy
+				+ "]";
+	}
 
 }
