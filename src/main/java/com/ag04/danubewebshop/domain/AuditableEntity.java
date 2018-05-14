@@ -20,7 +20,7 @@ import org.springframework.data.annotation.CreatedDate;
  */
 @MappedSuperclass
 public abstract class AuditableEntity implements Serializable {
-	@Column(name = "created_time", nullable = false, updatable = false)
+	@Column(name = "created_at", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	protected Date createdAt;

@@ -76,7 +76,7 @@
 								th:onclick="'openItemModal(\'' +${item.id} + '\');'"
 								th:text="${item.item.name}"></a></td>
 							<td th:text="${item.item.category.name}"></td>
-							<td th:text="${item.time}"></td>
+							<td th:text="${item.createdAt}"></td>
 							<td>
 								<button class="btn btn-md"
 									th:attr="data-href=@{/basket/remove}+'?id='+${item.id}"

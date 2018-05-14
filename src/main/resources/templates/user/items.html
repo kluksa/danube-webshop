@@ -81,7 +81,7 @@
 								th:onclick="'openItemModal(\'' +${item.id} + '\');'"
 								th:text="${item.name}"></a></td>
 							<td th:text="${item.category.name}"></td>
-							<td th:text="${item.timestamp}"></td>
+							<td th:text="${item.createdAt}"></td>
 							<td>
 								<button class="btn btn-md" type="button"
 									th:onclick="'addToCart(\'' +${item.id} + '\');'"
