@@ -14,10 +14,6 @@ import org.springframework.stereotype.Service;
 import com.ag04.danubewebshop.domain.Item;
 import com.ag04.danubewebshop.repository.ItemRepository;
 
-/**
- * @author Lukša Kraljević, Srce
- *
- */
 @Service
 public class ItemServiceImpl implements ItemService {
 

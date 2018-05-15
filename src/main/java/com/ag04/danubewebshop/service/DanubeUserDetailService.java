@@ -20,9 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ag04.danubewebshop.domain.Role;
 import com.ag04.danubewebshop.domain.User;
 
-/**
- * @author Lukša Kraljević, Srce
- */
 @Service("userDetailsService")
 public class DanubeUserDetailService implements UserDetailsService {
 

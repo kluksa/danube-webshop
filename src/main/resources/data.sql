@@ -1,6 +1,7 @@
-INSERT INTO tbl_user (id, username, password, enabled, created_by, created_at) values (1, 'prvi', '$2a$10$uKNzFDk6rppd4LVl5lWMSuezgVkr3c5fL4bTUji4E4ZnKY5McVozC', TRUE, 'luksa', CURRENT_TIMESTAMP());
-INSERT INTO tbl_user (id, username, password, enabled, created_by, created_at) values (2, 'drugi', '$2a$10$HTNRHCkRkKpi8j80eSCsTedTcwhVcA2ZQqT0WjxgjecoA73uQq.7a', TRUE, 'luksa', CURRENT_TIMESTAMP());
-INSERT INTO tbl_user (id, username, password, enabled, created_by, created_at) values (3, 'treci', '$2a$10$zB9BM1F4WypNzMUQ/GO1w.zxNPT9y5rAixAwP0QRLDH5Ozln3cnR2', TRUE, 'luksa', CURRENT_TIMESTAMP());
+INSERT INTO tbl_user (id, username, password, enabled, created_by, created_at) values (1, 'admin', '$2a$10$CzQiaMxraK8mYQi0XB3n0uapt4OGFnMa4feaSOc1jdNbsS1lhZiNK', TRUE, 'luksa', CURRENT_TIMESTAMP());
+INSERT INTO tbl_user (id, username, password, enabled, created_by, created_at) values (2, 'user', '$2a$10$yemAofkG3qoP4EhaXsfsJ.5W2oMBzs/bZyfQ2yO41pZs1BH/q1IBi', TRUE, 'luksa', CURRENT_TIMESTAMP());
+
+
 
 
 
@@ -12,7 +13,6 @@ INSERT INTO tbl_role (id, name, created_by, created_at) values (2, 'ROLE_USER', 
 INSERT INTO user_has_roles (user_id, role_id) values (1, 1);
 INSERT INTO user_has_roles (user_id, role_id) values (1, 2);
 INSERT INTO user_has_roles (user_id, role_id) values (2, 2);
-INSERT INTO user_has_roles (user_id, role_id) values (3, 1);
 
 
 INSERT INTO tbl_product_category (id, name, created_by, created_at)  values (1, 'Prva kategorija', 'luksa', CURRENT_TIMESTAMP());

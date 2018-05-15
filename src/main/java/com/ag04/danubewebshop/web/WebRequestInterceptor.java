@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
-/**
- * @author Lukša Kraljević, Srce
- */
 @Component
 public class WebRequestInterceptor extends HandlerInterceptorAdapter {
    @Override

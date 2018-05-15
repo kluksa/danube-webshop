@@ -8,10 +8,6 @@ import java.util.List;
 import com.ag04.danubewebshop.domain.ShoppingBasket;
 import com.ag04.danubewebshop.domain.User;
 
-/**
- * @author Lukša Kraljević, Srce
- *
- */
 public interface ShoppingBasketService {
    
    public void addWithItemId(Long itemId, User user);

@@ -27,10 +27,6 @@ import com.ag04.danubewebshop.domain.Item;
 import com.ag04.danubewebshop.service.ItemService;
 import com.ag04.danubewebshop.service.ProductCategoryService;
 
-/**
- * @author Lukša Kraljević, Srce
- *
- */
 @Controller
 public class AddItemController {
    @Autowired

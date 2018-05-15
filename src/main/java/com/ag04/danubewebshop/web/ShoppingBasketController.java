@@ -20,10 +20,6 @@ import com.ag04.danubewebshop.domain.User;
 import com.ag04.danubewebshop.service.ShoppingBasketService;
 import com.ag04.danubewebshop.service.UserService;
 
-/**
- * @author Lukša Kraljević, Srce
- *
- */
 @Controller
 @RequestMapping(value = "/basket")
 public class ShoppingBasketController {

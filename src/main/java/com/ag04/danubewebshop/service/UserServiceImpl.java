@@ -13,10 +13,6 @@ import org.springframework.stereotype.Service;
 import com.ag04.danubewebshop.domain.User;
 import com.ag04.danubewebshop.repository.UserRepository;
 
-/**
- * @author Lukša Kraljević, Srce
- *
- */
 
 @Service
 public class UserServiceImpl implements UserService {

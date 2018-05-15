@@ -7,9 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
-/**
- * @author Lukša Kraljević, Srce
- */
 @Configuration
 public class RequestAuditConfiguration {
 

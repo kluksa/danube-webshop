@@ -17,9 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ag04.danubewebshop.service.UserService;
 
-/**
- * @author Lukša Kraljević, Srce
- */
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	

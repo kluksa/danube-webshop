@@ -16,10 +16,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
-/**
- * @author Lukša Kraljević, Srce
- *
- */
 @MappedSuperclass
 public abstract class AuditableEntity implements Serializable {
 	@Column(name = "created_at", nullable = false, updatable = false)
