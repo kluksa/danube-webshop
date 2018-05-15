@@ -6,7 +6,6 @@ package com.ag04.danubewebshop.web;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +22,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ag04.danubewebshop.domain.Item;
-import com.ag04.danubewebshop.domain.ProductCategory;
 import com.ag04.danubewebshop.service.ItemService;
 import com.ag04.danubewebshop.service.ProductCategoryService;
 
@@ -43,7 +40,6 @@ public class AddItemController {
    
    @InitBinder
    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-//      Tue May 15 14:13:03 CEST 2018
        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");   
        dateFormat.setLenient(false);
        binder.registerCustomEditor(Date.class, null,  new CustomDateEditor(dateFormat, true));
@@ -64,8 +60,11 @@ public class AddItemController {
 
    @RolesAllowed("ROLE_ADMIN")
    @PostMapping("/item/new")
-      public String addItemP(@Valid @ModelAttribute("item") Item item,   BindingResult result, Model model, Principal principal, Error error) {
+      public String addItemP(@Valid @ModelAttribute("item") Item item,   BindingResult result, Model model, Principal principal) {
       
+	   if ( result.hasErrors()) {
+		   return "admin/add_item";
+	   }
       if ( !principal.getName().equals(item.getCreatedBy())) {
          item.setCreatedBy(principal.getName());
          model.addAttribute("productCategories",  productCategoryService.findAll());

@@ -50,11 +50,7 @@ public class Item extends AuditableEntity{
 	private String description;
 
 	private String pictureUrl;
-
-	public Item() {
-	   
-	}
-
+	
 	public Long getId() {
 		return id;
 	}

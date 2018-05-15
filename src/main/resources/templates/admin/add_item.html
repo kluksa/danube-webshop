@@ -10,7 +10,8 @@
 	<form  th:action="@{/item/new}" th:object="${item}" method='post'>
 		<div class="form-group">
 			<label for="pictureUrlField">Picture:</label>
-			<input type="text" class="form-control" id="pictureUrlField" th:field="*{pictureUrl}" name="pictureUrl"></input>
+			<input type="text" class="form-control" id="pictureUrlField" th:field="*{pictureUrl}" name="pictureUrl" th:errorClass="error"></input>
+			<p class="alert alert-danger" th:if="${#fields.hasErrors('pictureUrl')}" th:errors="*{pictureUrl}"></p>
 		</div>
 		<div class="form-group">
 			<label for="idField">Product number:</label>
@@ -18,7 +19,7 @@
 		</div>
 		<div class="form-group">
 			<label for="nameField">Product name:</label>
-			<input type="text" class="form-control" id="nameField" th:field="*{name}" name="name" required></input>
+			<input type="text" class="form-control" id="nameField" th:field="*{name}" name="name" required th:errorClass="error"></input>
 		</div>
 			<div class="form-group">
 				<label for="categoryField">Product category:</label>
@@ -30,7 +31,7 @@
 			</div>
 			<div class="form-group">
 			<label for="descriptionField">Product description:</label>
-			<textarea  rows="4" class="form-control" id="descriptionField" th:field="*{description}" name="description" pattern=".{3,}" required title="minimalno 3 slova"></textarea>
+			<textarea  rows="4" class="form-control" id="descriptionField" th:field="*{description}" name="description" pattern=".{3,}" required title="minimalno 3 slova" th:errorClass="error"></textarea>
 		</div>
 		<div class="form-group">
 			<label for="addedByField">Added by:</label>
