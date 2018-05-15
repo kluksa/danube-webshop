@@ -25,17 +25,13 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		return products;
 	}
 
-   /* (non-Javadoc)
-    * @see com.ag04.danubewebshop.service.ProductCategoryService#findById(java.lang.Integer)
-    */
+   @Cacheable(value="product_categories", key= "{#id}")
    @Override
    public Optional<ProductCategory> findById(Long id) {
       return productCategoryRepository.findById(id);
    }
 
-   /* (non-Javadoc)
-    * @see com.ag04.danubewebshop.service.ProductCategoryService#findAllUsed()
-    */
+   @Cacheable(value="product_categories")
    @Override
    public List<ProductCategory> findAllUsed() {
       return productCategoryRepository.findAllUsed();

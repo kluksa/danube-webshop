@@ -31,5 +31,8 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 	public List<Item> findByCategoryId(Long categoryId);
 
 	public List<Item> findByNameIgnoreCaseContainingOrDescriptionIgnoreCaseContaining(String name, String description);
+	
+	@Query("SELECT coalesce(max(i.id), 0) FROM Item i")
+	public Long getMaxId();
 
 }

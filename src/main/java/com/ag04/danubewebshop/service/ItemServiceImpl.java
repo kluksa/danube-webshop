@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class ItemServiceImpl implements ItemService {
 	private ItemRepository itemRepository;
 
 	@Override
+	@CacheEvict("items")
 	public void addItem(Item item) {
 		itemRepository.save(item);
 	}
@@ -47,13 +49,23 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Cacheable(value = "items", key = "{#string, #categoryId}")
 	public List<Item> findByNameOrDescriptionAndCategoryId(String string, Long categoryId) {
 		return itemRepository.findByNameIgnoreCaseContainingOrDescriptionIgnoreCaseContainingForCategory(string, categoryId);
 	}
 
 	@Override
+	@Cacheable(value = "items", key = "{#categoryId}")
 	public List<Item> findByCategoryId(Long categoryId) {
 		return itemRepository.findByCategoryId(categoryId);
 	}
+
+   /* (non-Javadoc)
+    * @see com.ag04.danubewebshop.service.ItemService#findMaxId()
+    */
+   @Override
+   public Long getMaxId() {
+      return itemRepository.getMaxId();
+   }
 
 }

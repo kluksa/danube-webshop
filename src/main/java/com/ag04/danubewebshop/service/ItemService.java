@@ -30,5 +30,7 @@ public interface ItemService {
    public List<Item> findByNameOrDescription(String name);
 
    public List<Item> findByNameOrDescriptionAndCategoryId(String string, Long categoryId);
+   
+   public Long getMaxId();
 
 }

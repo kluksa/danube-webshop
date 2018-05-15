@@ -4,6 +4,7 @@
 package com.ag04.danubewebshop.web;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,30 +79,6 @@ public class ItemController {
 		return "layout/item_details :: modalContents";
 	}
 	
-	@GetMapping("/item/new")
-	@RolesAllowed("ROLE_ADMIN")
-	public String newItem( ModelMap model, Principal principal) {
-		Item item = new Item();
-//		item.setAuthor(userService.findByUsername(principal.getName()).get());
-	   model.addAttribute("productCategories",  productCategoryService.findAll());
-		model.addAttribute("writeable", true);
-		model.addAttribute("item", item);
-		return "layout/item_details :: modalContents";
-	}
-	
-
-	@RolesAllowed("ROLE_ADMIN")
-	@PostMapping("/item/")
-	public String addItemP(String name, Long categoryId, String description, String pictureUrl ) {
-		Item item = new Item();
-		item.setName(name);
-		Optional<ProductCategory> category = productCategoryService.findById(categoryId);
-		item.setCategory(category.get());
-		item.setDescription(description);
-		item.setPictureUrl(pictureUrl);
-		itemService.addItem(item);
-		return "redirect:/";
-	}
 
 
 }

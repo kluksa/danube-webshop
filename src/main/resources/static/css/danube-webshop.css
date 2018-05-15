@@ -94,3 +94,7 @@ table.table thead .sorted.sorted-desc:after{
 table.table thead .sorted.sorted-asc:after{
 	content: "\f15d";
 }
+.img-fluid {
+	max-width: 100%;
+	height: auto;
+}

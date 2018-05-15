@@ -24,24 +24,6 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
-    <appender name="FILE-DB" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DEV_HOME}/db-access.log</file>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
-            </Pattern>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-<!-- rollover daily -->
-            <fileNamePattern>${DEV_HOME}/archived/db-access.%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-    </appender>
-
-
     <appender name="FILE-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${DEV_HOME}/log.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -62,27 +44,14 @@
         
         <!-- Send logs to both console and file audit -->
     <logger name="com.ag04" level="info" additivity="false">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE-LOG" />
     </logger>
 
     <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
-<!--     	<level value="DEBUG" /> -->
-    	<level value="INFO" />
+    	<level value="DEBUG" />
     	<appender-ref ref="FILE-HTTP" />
 	</logger>
-    <logger name="org.hibernate.SQL">
-<!--     	<level value="DEBUG" /> -->
-    	<level value="INFO" />
-    	<appender-ref ref="FILE-DB" />
-	</logger>
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder">
-<!--     	<level value="TRACE" /> -->
-    	<level value="INFO" />
-    	<appender-ref ref="FILE-DB" />
-	</logger>
-
     <root level="info">
-        <appender-ref ref="FILE-LOG" />
         <appender-ref ref="STDOUT" />
     </root>
 

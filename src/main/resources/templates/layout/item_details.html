@@ -1,96 +1,81 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-	
+
 <div id="itemModal" class="modal modal_wide fade" tabindex="-1"
 	role="dialog" th:fragment="modalContents">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-		
-			<form class="form" th:action="@{/item/}" method='POST'>
-				<div class="form-group">
+			<div class="form-group">
 
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLongTitle">Item
-							details</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="container-fluid">
-						<div sec:authorize='hasAuthority("ROLE_ADMIN")'>
-							<div class="row">
-								<label for="itemId" class="col-sm-3 col-form-label">Id:</label>
-								<div class="col-sm-9">
-									<input type="text" id="itemId" class="form-control" readonly
-										th:value="${item.id}"></input>
-								</div>
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Item
+						details</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+
+							<label for=itemPictureUrl class="col-sm-3 col-form-label">Picture:</label>
+							<div class="col-sm-9">
+								<img th:src="@{${item.pictureUrl}}"
+									class="img-fluid img-thumbnail">
 							</div>
 						</div>
-							<div class="row">
-								<label for="itemName" class="col-sm-3 col-form-label">Name:</label>
-								<div class="col-sm-9">
-									<input type="text" id="itemName" class="form-control" th:attr="readonly=${(writeable != null  && writeable) ? null : 'readonly'}"
-										th:value="${item.name}" name="name"></input>
-								</div>
-							</div>
-							<div class="row">
-								<label for="itemCategory" class="col-sm-3 col-form-label">Category:</label>
-								<div class="col-sm-9">
-									<input th:if="${(writeable == null || !writeable)}" type="text" id="itemCategory" class="form-control"
-										readonly th:value="${item.category.name}"></input>
-									<div th:if="${(writeable != null  && writeable)}">
-										<select class="form-control" id="categories">
-											<option th:each="category: ${productCategories}" th:name="categoryId" th:value="${category.id}" th:text="${category.name}"></option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<label for="itemDescription" class="col-sm-3 col-form-label">Description:</label>
-								<div class="col-sm-9">
-									<input type="text" id="itemDescription" class="form-control" th:attr="readonly=${(writeable != null  && writeable) ? null : 'readonly'}"
-										 th:value="${item.description}" name="description"></input>
-								</div>
-							</div>
-							<div class="row">
 
-								<label for=itemPictureUrl class="col-sm-3 col-form-label">PictureUrl:</label>
-								<div class="col-sm-9">
-									<input type="text" id="itemPictureUrl" class="form-control" th:attr="readonly=${(writeable != null  && writeable) ? null : 'readonly'}"
-										 th:value="${item.pictureUrl}" name="pictureUrl"></input>
-								</div>
-							</div>
-							<div sec:authorize='hasAuthority("ROLE_ADMIN")'>
-							<div class="row">
-								<label for="itemAuthor" class="col-sm-3 col-form-label">Author:</label>
-								<div class="col-sm-9">
-									<input type="text" id="itemAuthor" class="form-control" readonly
-										 th:value="${item.author.username}"></input>
-								</div>
-							</div>
-							<div class="row">
-								<label for="itemTimestamp" class="col-sm-3 col-form-label">Timestamp:</label>
-								<div class="col-sm-9">
-									<input type="text" id="itemTimestamp" class="form-control" 
-										readonly th:value="${item.createdAt}"></input>
-								</div>
-							</div>
+						<div class="row">
+							<label for="itemId" class="col-sm-3 col-form-label">Id:</label>
+							<div class="col-sm-9">
+								<input type="text" id="itemId" class="form-control" readonly
+									th:value="${item.id}"></input>
 							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Close</button>
-						<div th:if="${writeable}">
-							<button type="submit" class="btn btn-primary">Save</button>
+						<div class="row">
+							<label for="itemName" class="col-sm-3 col-form-label">Name:</label>
+							<div class="col-sm-9">
+								<input type="text" id="itemName" class="form-control" readonly
+									th:value="${item.name}" name="name"></input>
+							</div>
+						</div>
+						<div class="row">
+							<label for="itemCategory" class="col-sm-3 col-form-label">Category:</label>
+							<div class="col-sm-9">
+								<input type="text" id="itemCategory" class="form-control"
+									readonly th:value="${item.category.name}"></input>
+							</div>
+						</div>
+						<div class="row">
+							<label for="itemDescription" class="col-sm-3 col-form-label">Description:</label>
+							<div class="col-sm-9">
+								<input type="text" id="itemDescription" class="form-control"
+									readonly th:value="${item.description}" name="description"></input>
+							</div>
+						</div>
+						<div class="row">
+							<label for="itemAuthor" class="col-sm-3 col-form-label">Author:</label>
+							<div class="col-sm-9">
+								<input type="text" id="itemAuthor" class="form-control" readonly
+									th:value="${item.createdBy}"></input>
+							</div>
+						</div>
+						<div class="row">
+							<label for="itemTimestamp" class="col-sm-3 col-form-label">Timestamp:</label>
+							<div class="col-sm-9">
+								<input type="text" id="itemTimestamp" class="form-control"
+									readonly th:value="${item.createdAt}"></input>
+							</div>
 						</div>
 					</div>
 				</div>
-			</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
 </html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<th:block layout:fragment="content">
+	<div class="container" style="width: 1000px;">
+	<h1 th:text="#{admin.item.title}"></h1>
+	<form  th:action="@{/item/new}" th:object="${item}" method='post'>
+		<div class="form-group">
+			<label for="pictureUrlField">Picture:</label>
+			<input type="text" class="form-control" id="pictureUrlField" th:field="*{pictureUrl}" name="pictureUrl"></input>
+		</div>
+		<div class="form-group">
+			<label for="idField">Product number:</label>
+			<input type="text" class="form-control" id="idField" readonly th:field="*{id}" name="id"></input>
+		</div>
+		<div class="form-group">
+			<label for="nameField">Product name:</label>
+			<input type="text" class="form-control" id="nameField" th:field="*{name}" name="name" required></input>
+		</div>
+			<div class="form-group">
+				<label for="categoryField">Product category:</label>
+				<select class="form-control" th:field="*{category}"
+					id="categoryField">
+					<option th:each="category: ${productCategories}"
+						th:value="${{category}}" th:text="${category.name}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+			<label for="descriptionField">Product description:</label>
+			<textarea  rows="4" class="form-control" id="descriptionField" th:field="*{description}" name="description" pattern=".{3,}" required title="minimalno 3 slova"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="addedByField">Added by:</label>
+			<input type="text" class="form-control" id="addedByField" th:field="*{createdBy}" readonly name="createdBy"></input>
+		</div>
+		<div class="form-group">
+			<label for="createdAtField">Date added:</label>
+			<input type="text" class="form-control" id="createdAtField" th:field="*{createdAt}" readonly name="createdAt"></input>
+		</div>
+		<button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Close</button>
+		<button type="submit" class="btn btn-primary">Save</button>
+	</form>
+	</div>
+</th:block>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 	private ItemRepository itemRepo;
 
 	@Override
+	@CacheEvict("basket")
 	public void addWithItemId(Long itemId, User user) {
 		
 		Optional<Item> item = itemRepo.findById(itemId);
@@ -35,12 +37,12 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 	}
 
 	@Override
+	@CacheEvict("basket")
 	public void removeById(Long id, User user) {
 
 		Optional<ShoppingBasket> entry = repo.findById(id);
 		if (user.equals(entry.get().getUser())) {
 			repo.delete(entry.get());
-//			repo.deleteById(id);
 		} else {
 			throw new AccessDeniedException("User has no rights");
 		}
